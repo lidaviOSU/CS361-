@@ -1,12 +1,7 @@
-from application import db, ma
-from sqlalchemy_serializer import SerializerMixin
+from application import db
 
 
-class MSDS(db.Model,SerializerMixin):
-
-    __tablename__ = 'MSDS'
-
-    serialize_only = ('name', 'cas', 'internal', 'year', 'user', 'vendor', 'comments')
+class MSDS(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(length=50), nullable=False)
     cas = db.Column(db.String(length=50), nullable=False)
@@ -24,4 +19,3 @@ class hazard(db.Model):
     year = db.Column(db.Integer(), nullable=False)
     user = db.Column(db.String(length=50), nullable=False)
     comments = db.Column(db.String(length=250),nullable=False)
-

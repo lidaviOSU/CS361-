@@ -1,8 +1,9 @@
 from flask import render_template, redirect, url_for, flash, request
 from application.Add_hazard_form import HazardForm
+from application.add_down_load_form import Downloadform
 from application.searchdb import searchdb
 from application import db
-from application.models import MSDS, hazard
+from application.models import MSDS
 from application import app
 
 
@@ -67,7 +68,7 @@ def yes():
 def no():
     return render_template('no.html')
 
-@app.route('/search', methods=['POST'])
+@app.route('/search', methods=['GET'])
 def search():
     q = request.args.get('q')
     if q:
@@ -75,3 +76,11 @@ def search():
         return render_template('search.html',data=data)
     else:
         return render_template('search.html')
+
+@app.route('/download', methods = ["POST"])
+def download():
+    form = Downloadform()
+    if form.validate_on_submit():
+        query = form.criteria.data
+        return redirect(url_for('download_csv', query=query))
+    return render_template('download.html', form=form)
